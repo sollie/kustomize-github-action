@@ -1,4 +1,7 @@
 # kustomize-github-action
+
+*Forked from https://github.com/karancode/kustomize-github-action*
+
 Kustomize GitHub Actions allow you to execute Kustomize Build command within GitHub Actions.
 
 The output of the actions can be viewed from the Actions tab in the main repository view. If the actions are executed on a pull request event, a comment may be posted on the pull request.
