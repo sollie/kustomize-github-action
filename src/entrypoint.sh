@@ -51,9 +51,6 @@ function install_kustomize {
     echo "getting download url for kustomize ${kustomize_version}"
 
     url=$(curl --retry-all-errors --fail --retry 30 --retry-max-time 120 "${with_token[@]}" -s "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v$kustomize_version" | jq -r '.assets[] | select(.browser_download_url | test("kustomize(_|.)?(v)?'$kustomize_version'_linux_amd64"))  | .browser_download_url')
-    if [ -n "$url" ]; then
-      return
-    fi
 
     if [ -n "$url" ]; then
       echo "Download URL found in $url"
