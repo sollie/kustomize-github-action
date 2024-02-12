@@ -29,7 +29,6 @@ jobs:
           kustomize_build_dir: '.'
           kustomize_comment: true
           kustomize_output_file: "gitops/rendered.yaml"
-          kustomize_build_options: "--load_restrictor none"
           enable_alpha_plugins: true
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
