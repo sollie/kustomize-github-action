@@ -25,7 +25,6 @@ jobs:
       - name: 'Kustomize Build'
         uses: karancode/kustomize-github-action@master
         with:
-          kustomize_version: '5.3.0'
           kustomize_build_dir: '.'
           kustomize_comment: true
           kustomize_output_file: "gitops/rendered.yaml"
@@ -39,8 +38,6 @@ This was a simplified example showing the basic features of these Kustomize GitH
 
 Inputs configure Kustomize GitHub Actions to perform build action.
 
-* `kustomize_version` - (Required) The Kustomize version to use for `kustomize build`.
-* `kustomize_install` - (Optional) Whether or not to install kustomize.
 * `kustomize_build_dir` - (Optional) The directory to run `kustomize build` on (assumes that the directory contains a kustomization yaml file). Defaults to `.`.
 * `kustomize_comment` - (Optional) Whether or not to comment on GitHub pull requests. Defaults to `false`.
 * `kustomize_output_file` - (Optional) Path to to file to write the kustomize build output to.

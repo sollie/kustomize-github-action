@@ -1,14 +1,6 @@
 #!/bin/bash
 
 function parse_inputs {
-    # required inputs
-    if [ "${INPUT_KUSTOMIZE_VERSION}" != "" ]; then
-        kustomize_version=${INPUT_KUSTOMIZE_VERSION}
-    else
-        echo "Input kustomize_version cannot be empty."
-        exit 1
-    fi
-
     # optional inputs
     kustomize_build_dir="."
     if [ "${INPUT_KUSTOMIZE_BUILD_DIR}" != "" ] || [ "${INPUT_KUSTOMIZE_BUILD_DIR}" != "." ]; then
@@ -46,45 +38,10 @@ function parse_inputs {
     fi
 }
 
-function install_kustomize {
-
-    echo "getting download url for kustomize ${kustomize_version}"
-
-    url=$(curl --retry-all-errors --fail --retry 30 --retry-max-time 120 "${with_token[@]}" -s "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v$kustomize_version" | jq -r '.assets[] | select(.browser_download_url | test("kustomize(_|.)?(v)?'$kustomize_version'_linux_amd64"))  | .browser_download_url')
-
-    if [ -n "$url" ]; then
-      echo "Download URL found in $url"
-    else
-      echo "Failed to find download URL for ${kustomize_version}"
-      exit 1
-    fi
-
-    echo "Downloading kustomize v${kustomize_version}"
-    if [[ "${url}" =~ .tar.gz$ ]]; then
-      curl --retry 30 --retry-max-time 120 -s -S -L ${url} | tar -xz -C /usr/bin
-    else
-      curl --retry 30 --retry-max-time 120 -s -S -L ${url} -o /usr/bin/kustomize
-    fi
-    if [ "${?}" -ne 0 ]; then
-        echo "Failed to download kustomize v${kustomize_version}."
-        exit 1
-    fi
-    echo "Successfully downloaded kustomize v${kustomize_version}."
-
-    echo "Allowing execute privilege to kustomize."
-    chmod +x /usr/bin/kustomize
-    if [ "${?}" -ne 0 ]; then
-        echo "Failed to update kustomize privilege."
-        exit 1
-    fi
-    echo "Successfully added execute privilege to kustomize."
-
-}
-
 function main {
 
-    scriptDir=$(dirname ${0})
-    source ${scriptDir}/kustomize_build.sh
+    scriptDir=$(dirname "${0}")
+    source "${scriptDir}/kustomize_build.sh"
     parse_inputs
 
     if  [ "${kustomize_install}" == "1" ]; then
