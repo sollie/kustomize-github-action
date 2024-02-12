@@ -10,7 +10,7 @@ function kustomize_build {
 
     # exit code 0 - success
     if [ ${build_exit_code} -eq 0 ];then
-        build_comment_status="Success"
+        build_comment_status="Success ✅"
         echo "build: info: successfully executed kustomize build in ${kustomize_build_dir}."
         echo "${build_output}"
         echo
@@ -18,7 +18,7 @@ function kustomize_build {
 
     # exit code !0 - failure
     if [ ${build_exit_code} -ne 0 ]; then
-        build_comment_status="Failed"
+        build_comment_status="Failed ❌"
         echo "build: error: failed to execute kustomize build in ${kustomize_build_dir}."
         echo "${build_output}"
         echo
