@@ -50,14 +50,12 @@ function install_kustomize {
 
     echo "getting download url for kustomize ${kustomize_version}"
 
-    for i in {1..100}; do
-      url=$(curl --retry-all-errors --fail --retry 30 --retry-max-time 120 "${with_token[@]}" -s "https://api.github.com/repos/kubernetes-sigs/kustomize/releases?per_page=100&page=$i" | jq -r '.[].assets[] | select(.browser_download_url | test("kustomize(_|.)?(v)?'$kustomize_version'_linux_amd64"))  | .browser_download_url')
-      if [ ! -z $url ]; then
-        break
-      fi
-    done
+    url=$(curl --retry-all-errors --fail --retry 30 --retry-max-time 120 "${with_token[@]}" -s "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/tags/kustomize/v$kustomize_version" | jq -r '.assets[] | select(.browser_download_url | test("kustomize(_|.)?(v)?'$kustomize_version'_linux_amd64"))  | .browser_download_url')
+    if [ -n "$url" ]; then
+      return
+    fi
 
-    if [ ! -z $url ]; then
+    if [ -n "$url" ]; then
       echo "Download URL found in $url"
     else
       echo "Failed to find download URL for ${kustomize_version}"
