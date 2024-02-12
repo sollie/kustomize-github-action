@@ -25,7 +25,7 @@ jobs:
       - name: 'Kustomize Build'
         uses: karancode/kustomize-github-action@master
         with:
-          kustomize_version: '3.0.0'
+          kustomize_version: '5.3.0'
           kustomize_build_dir: '.'
           kustomize_comment: true
           kustomize_output_file: "gitops/rendered.yaml"
